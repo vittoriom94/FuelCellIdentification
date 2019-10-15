@@ -2,20 +2,18 @@ clc
 clearvars
 close all
 
+cd(fileparts(which(mfilename)));
+
+
+
+
 if(~isdeployed)
     cd(fileparts(which(mfilename)));
 end
-addpath(genpath('.'));
-addpath('../consegnaBassoRosa/GeneticoPulito/misureEifer/eifer/normal');
-addpath('../consegnaBassoRosa/GeneticoPulito/misureEifer/eifer/airStarv');
-load('15A_c00AirStarv(ultimacart).mat');
-% p = [0.06754 0.12344 0.09281 0.7254 0.07832 0.342];
-% init_p = [0.05  0.1 0.08 0.6 0.09 0.3];
 
-FrequencyHz = FrequencyHz(2:end);
-realPartOfImpedance = realPartOfImpedance(2:end);
-imagPartOfImpedance = imagPartOfImpedance(2:end);
-[resid,conf,params,minparams] = fitMultiple(realPartOfImpedance,imagPartOfImpedance,FrequencyHz,10000);
+addpath(genpath('.'));
+data = 'test_w4_sept_data.mat';
+load(data);
 
 %%
 lb = [0.0 ; 0.0 ; 0.0 ; 0.0 ; 0.0 ; 0.0];
