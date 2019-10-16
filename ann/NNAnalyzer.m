@@ -9,6 +9,15 @@ classdef NNAnalyzer
                 trainResult(i,:) = [best worst average];
             end
         end
+        function values = getValues(allWrongs, trainResult)
+           for i=1:size(trainResult,1)
+              for j=1:2
+                 values(i,j) = allWrongs(i,floor(trainResult(i,j))); 
+              end
+               
+           end
+            
+        end
         function [best, worst, average] = analyze(wrongs,total,trainAmount)
             best = NNAnalyzer.getBest(wrongs);
             worst = NNAnalyzer.getWorst(wrongs);

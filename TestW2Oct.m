@@ -184,6 +184,17 @@ classdef TestW2Oct
             save('test_w4_sept_data.mat','fullData')
         end
         
+        function result = fitImpedance(name)
+            load(name);
+            lowerBound = [0.0 ; 0.0 ; 0.0 ; 0.0 ; 0.0 ; 0.0; 0.0; 0.0];
+            upperBound = [10.0 ; 10.0 ; 10.0 ; 1.0 ; 10.0 ; 10.0; 10.0; 10.0];
+            amountOfData = 1000;
+            data = generateUniformData(lowerBound, upperBound,amountOfData);
+            result = struct('resid',[],'conf',[],'params',[]','minparams',[],'index',[],'outReason',[],'time',[]);
+            [result.resid,result.conf,result.params,result.minparams,result.index,result.outReason,result.time] = fitMultiple(realPartOfImpedance,imagPartOfImpedance,FrequencyHz,lowerBound,upperBound,1,1,data);
+            
+        end
+        
         function displayData(fullData,confidenceStats)
             graphNames = {'Normal';'Fuel Starvation';'Cathode Starvation';'Anode Starvation';'Air Starvation'};
             for i=1:size(fullData,1)
