@@ -18,18 +18,37 @@ load('simuDataNN.mat');
 % 1.4 24 12
 % 1.5 48 24
 % 1.6 96 48
+% 
+% dataset = DataSet('../ImportData','data\classifier.mat');
+% images = dataset.classifiedImages;
+% dim = length(images);
+% 
+% for i=1:dim
+% 
+%    
+%    Z{i,1} = NNUtils.normalize(images(i).data.realPartOfImpedance+1i*images(i).data.imagPartOfImpedance);
+%    Zcluster(i,:) = [real(cell2mat(Z(i,1))') imag(cell2mat(Z(i,1))')];
+%    res = zeros(3,1);
+%    res(images(i).class,1) = 1;
+%    results(:,i)=res;
+%     
+%     
+% end
 total = 50000;
 trainAmount = 500;
+base = 100;
+% [Z,Zcluster] = NNUtils.augment(Z,Zcluster, total, trainAmount, base);
+
 layers = {24,48,96,[24 12],[48 24],[96 48], [96 48 24]};
 linesName = {'Rete 24','Rete 48','Rete 96','Rete 24 - 12','Rete 48 - 24','Rete 96 - 48','Rete 96 - 48 -24'};
 disp('TEST');
-allWrongs = {};
+allWrongs = {};w
 for i=1:length(layers)
     fprintf('Testing layer %d\n',i);
     for j=1:200
         fprintf('Attempt number %d\n',j);
         
-        trainedNet = Classification.trainNet(layers{i},Zcluster,results,total,trainAmount);
+        trainedNet = Classification.trainNet(layers{i},Zcluster,results,total,base);
         [newWrongs, testing] = Classification.testNet(trainedNet,Zcluster,total,trainAmount);
         allWrongs(i,j) = {newWrongs};
 

@@ -25,7 +25,7 @@ classdef NNUtils < handle
         end
         function [Z,Zcluster,results] = generateTestingData(Model,amount,classes,class,params,freq,noise,noiseModel)
             Z = cell(amount,1);
-
+            
             res = zeros(classes,1);
             res(class,1) = 1;
             for i=1:length(Z)
@@ -57,6 +57,24 @@ classdef NNUtils < handle
                 Zcluster(i,:) = [real(cell2mat(Z(i,1))') imag(cell2mat(Z(i,1))')];
                 results(:,i)=res;
                 
+            end
+            
+        end
+        function [Z,Zcluster] = augment(Z,Zcluster, amount, trainAmount, base)
+            classes=3;
+            step = floor(trainAmount/base);
+            for i=1:classes
+                a=1;
+                for j=1:base
+                    Zbase = Z{(j-1)*step+1,i};
+                    Zaug = generateFromImpedance(Zbase,step);
+                    for k=1:size(Zaug,1)
+                        Z{(j-1)*size(Zaug,1)+k,i} = NNUtils.normalize(Zaug{k,1});
+                        Zcluster((i-1)*(j-1)*size(Zaug,1)+k+(i-1)*amount,:) = [real(cell2mat(Z((j-1)*size(Zaug,1)+k,i))') imag(cell2mat(Z((j-1)*size(Zaug,1)+k,i))')];
+
+                    end
+
+                end
             end
             
         end

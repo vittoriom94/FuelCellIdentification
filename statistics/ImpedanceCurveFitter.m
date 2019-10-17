@@ -54,7 +54,7 @@ classdef ImpedanceCurveFitter < handle
 
 
             
-            predic = @(a,freq) AsghariModel(a,freq);
+            predic = @(a,freq) FouquetModel(a,freq);
             F=@(a,freq) [real(predic(a,freq)); imag(predic(a,freq))];
             
             %Esecuzione algoritmo
@@ -69,7 +69,7 @@ classdef ImpedanceCurveFitter < handle
             options = optimoptions(options,'Display', 'off');
             tic;
             [ahat,resnorm,residual,exitflag,output,lambda,jacobian] = ...
-                lsqcurvefit(F,obj.StartParams,obj.Frequencies,[obj.MeasuredReal;obj.MeasuredImag],obj.LowerBound,obj.UpperBound,options);
+                lsqcurvefit(F,obj.StartParams,obj.Frequencies,[obj.MeasuredReal;obj.MeasuredImag],obj.LowerBound,obj.UpperBound,obj.RealFactor,obj.ImagFactor,options);
             obj.Time = toc;
             
         end

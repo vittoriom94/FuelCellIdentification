@@ -34,7 +34,7 @@ for i=1:amount
     data = get(plotObject,'XData') +1i*get(plotObject,'YData'); 
     close(noShow);
 %     plot(real(data),-imag(data),'-k')
-    newZ{i} = data';
+    newZ{i} = data.';
 end
 
 
