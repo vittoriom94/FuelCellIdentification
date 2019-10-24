@@ -9,11 +9,13 @@ classdef DataSet < handle
     end
     
     methods
-        function obj = DataSet(folder, classifierFile)
+        function obj = DataSet(folder, classifier)
             obj.images = obj.loadData(folder);
-            classifier = load(classifierFile);
-            obj.classifier = classifier.classifier;
+
+            obj.classifier = classifier;
+            obj.order();
             obj.classifiedImages = obj.loadImpedance();
+
             
             
         end
@@ -43,7 +45,17 @@ classdef DataSet < handle
                    code = name(end-6:end-4);
                    fName = [obj.images{ind,1} '/' code '.mat'];
                    data = load(fName);
+                   lastIndex = length(data.realPartOfImpedance);
+                   while lastIndex < 48
+                      lastIndex=lastIndex+1;
+                      data.realPartOfImpedance(lastIndex) = data.realPartOfImpedance(lastIndex-1);
+                      data.imagPartOfImpedance(lastIndex) = data.imagPartOfImpedance(lastIndex-1);
+                   end
+                   
+                   
                    imp = struct('data',data,'folder',obj.images{ind,1},'code',code,'name',name,'class',obj.classifier{i,2});
+                   
+                   
                    impedances(i) = imp;
 
                    
@@ -52,6 +64,12 @@ classdef DataSet < handle
             end
             
         end
+        
+        function order(obj)
+            obj.classifier = sortrows(obj.classifier,2);
+            
+        end
+            
 
     end
 end

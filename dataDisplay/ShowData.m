@@ -5,31 +5,36 @@ classdef ShowData < handle
     methods(Static)
         function f = showByZ(graphTitle,names,Z)
             % names = column vector {'a';'b';'c'}
+            co = [0 0 1;
+                1 0 0;
+                0 1 0;
+                0.8500    0.3250    0.0980];
+            set(groot,'defaultAxesColorOrder',co);
             if length(Z) >=2 && rem(length(Z),2)==0 && length(names)==length(Z)/2
                 f = figure();
                 title(graphTitle)
                 hold on
                 grid on
                 axis equal
-                xlabel('Re(Z) [m\Omega]');
-                ylabel('-Im(Z) [m\Omega]');
+                xlabel('Re(Z) [\Omega]');
+                ylabel('-Im(Z) [\Omega]');
                 
                 plot(Z{1},-Z{2},'- k',...
-                    'Marker','.','MarkerSize',16);
+                    'Marker','.','MarkerSize',14);
                 
-                xticks(floor(Z{1}(1,1)):0.02:ceil(Z{1}(48,1)));
-                yticks(-0.1:0.02:0.2);
-                xticklabels(xticks*1000);
-                yticklabels(yticks*1000);
-                a = get(gca,'XTickLabel');
-                set(gca,'XTickLabel',a,'fontsize',7);
+%                 xticks(floor(Z{1}(1,1)):0.02:ceil(Z{1}(48,1)));
+%                 yticks(-0.1:0.02:0.2);
+%                 xticklabels(xticks*1000);
+%                 yticklabels(yticks*1000);
+%                 a = get(gca,'XTickLabel');
+%                 set(gca,'XTickLabel',a,'fontsize',7);
                 
-                a = get(gca,'YTickLabel');
-                set(gca,'YTickLabel',a,'fontsize',7);
+%                 a = get(gca,'YTickLabel');
+%                 set(gca,'YTickLabel',a,'fontsize',7);
                 
                 for i=3:2:length(Z)
                     plot(Z{i},-Z{i+1},...
-                        'Marker','.','MarkerSize',16);
+                        'Marker','.','MarkerSize',10);
                 end
                 hold off
                 legend(names);

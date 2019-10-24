@@ -2,11 +2,6 @@ clc
 clearvars
 close all
 
-cd(fileparts(which(mfilename)));
-
-
-
-
 if(~isdeployed)
     cd(fileparts(which(mfilename)));
 end

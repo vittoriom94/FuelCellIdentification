@@ -26,13 +26,13 @@ classdef ImpedanceCurveFitter < handle
             obj.CellName = cellName;
             obj.Frequencies = frequency;
         end
-        function fit(obj, estim,lb,ub,realFactor,imagFactor,showData)
+        function fit(obj, estim,lb,ub,realFactor,imagFactor,showData,model)
             obj.StartParams = estim;
             obj.LowerBound = lb;
             obj.UpperBound = ub;
             obj.RealFactor = realFactor;
             obj.ImagFactor = imagFactor;
-            [ahat,resnorm,residual,exitflag,output,lambda,jacobian] = doFitting(obj);
+            [ahat,resnorm,residual,exitflag,output,lambda,jacobian] = doFitting(obj,model);
             obj.Params = ahat;
             obj.Output = output;
             obj.Resnorm = resnorm;
@@ -49,12 +49,12 @@ classdef ImpedanceCurveFitter < handle
             
         end
         
-        function [ahat,resnorm,residual,exitflag,output,lambda,jacobian] = doFitting(obj)
+        function [ahat,resnorm,residual,exitflag,output,lambda,jacobian] = doFitting(obj,model)
             
 
 
             
-            predic = @(a,freq) FouquetModel(a,freq);
+            predic = @(a,freq) model(a,freq);
             F=@(a,freq) [real(predic(a,freq)); imag(predic(a,freq))];
             
             %Esecuzione algoritmo

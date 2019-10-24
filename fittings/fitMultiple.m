@@ -1,10 +1,10 @@
-function [resid,conf,params,minparams,index,outReason, time,initialResid] = fitMultiple(realPartOfImpedance,imagPartOfImpedance,FrequencyHz,lowerBound,upperBound,realFactor,imagFactor,estim)
+function [resid,conf,params,minparams,index,outReason, time,initialResid] = fitMultiple(realPartOfImpedance,imagPartOfImpedance,FrequencyHz,lowerBound,upperBound,realFactor,imagFactor,estim,model)
 
 for i = 1:size(estim,1)
     i
     fitter = ImpedanceCurveFitter();
     fitter.loadData(realPartOfImpedance,imagPartOfImpedance,FrequencyHz,'Normal condition');
-    fitter.fit(estim(i,:),lowerBound,upperBound,realFactor,imagFactor,false);
+    fitter.fit(estim(i,:),lowerBound,upperBound,realFactor,imagFactor,false,model);
     resid(i,1) = fitter.Resnorm;
     conf{i,1} = fitter.ConfidenceIntervals;
     params{i,1} = fitter.Params;

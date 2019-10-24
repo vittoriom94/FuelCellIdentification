@@ -2,10 +2,10 @@ classdef NNAnalyzer
     
     
     methods(Static)
-        function trainResult = analyzeAll(allWrongs,total,trainAmount)
+        function trainResult = analyzeAll(allWrongs)
             trainResult = zeros(size(allWrongs,1),3);
             for i=1:size(allWrongs,1)
-                [best, worst, average] = NNAnalyzer.analyze(allWrongs(i,:),total,trainAmount);
+                [best, worst, average] = NNAnalyzer.analyze(allWrongs(i,:));
                 trainResult(i,:) = [best worst average];
             end
         end
@@ -18,7 +18,7 @@ classdef NNAnalyzer
            end
             
         end
-        function [best, worst, average] = analyze(wrongs,total,trainAmount)
+        function [best, worst, average] = analyze(wrongs)
             best = NNAnalyzer.getBest(wrongs);
             worst = NNAnalyzer.getWorst(wrongs);
             average = NNAnalyzer.getAverage(wrongs);

@@ -75,21 +75,18 @@ classdef Classification
         end
         function trainedNet = trainNet(layers,Zcluster,results,total,trainAmount)
             
-            %  res = kmeans(Zcluster,clusters);
-            % fitOneRandom(model1(1,:),model1(1,:),freq);
-            
             % DEVO PROVARE A LEVARE LA PARTE REALE
             net = patternnet(layers);
             net.trainParam.min_grad = 1e-15;
-            net.trainParam.max_fail = 100;
+            net.trainParam.max_fail = 200;
             trainSet = NNUtils.getTrainSet(Zcluster,3,total,trainAmount);
             targets = NNUtils.getTargets(results,3,total,trainAmount);
-            trainedNet = train(net,trainSet(49:96,:),targets);
+            trainedNet = train(net,trainSet(1:96,:),targets);
         end
         function [wrongs,testing] = testNet(trainedNet,Zcluster,total,trainAmount)
             
             testingCurves = NNUtils.getTestingSet(Zcluster,3,total,trainAmount);
-            testing = trainedNet(testingCurves(49:96,:));
+            testing = trainedNet(testingCurves(1:96,:));
             classes = vec2ind(testing);
             
             wrongs1 = NNUtils.verifyResults(classes,total,trainAmount,3,1);

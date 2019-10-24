@@ -2,7 +2,7 @@ function saveFiguresForStartingCondition(fullData,confidenceIntervals)
 
 for i=1:size(fullData,1)
     savePath = 'images/startingConditions/';
-    names = {'NormalCondition'; 'FuelStarvation'; 'CathodeStarvation'; 'AnodeStarvation'; 'AirStarvation'};
+    names = {'NormalCondition_Simulata'; 'FuelStarvation'; 'CathodeStarvation'; 'AnodeStarvation'; 'AirStarvation'};
     
     f = startConditionsAll(fullData(i,:),confidenceIntervals{i});
     saveas(f,[savePath , names{i},'_all'],'jpg');
@@ -35,7 +35,7 @@ end
 indexes = confidence{1,1}(:,1);
 
 maxResid = data{1,3}.initialResid{indexes{1}};
-maxI = indexes(1);
+maxI = indexes{1};
 for j=2:length(indexes)
     
     newResid = data{1,3}.initialResid{indexes{j}};
@@ -79,7 +79,7 @@ ylabel('-Im(Z) [m\Omega]');
 indexes = confidence{1,1}(:,1);
 
 maxResid = data{1,3}.initialResid{indexes{1}};
-maxI = indexes(1);
+maxI = indexes{1};
 for j=2:length(indexes)
     
     newResid = data{1,3}.initialResid{indexes{j}};
@@ -168,7 +168,7 @@ end
 indexes = confidence{1,1}(:,1);
 
 maxResid = data{1,3}.initialResid{indexes{1}};
-maxI = indexes(1);
+maxI = indexes{1};
 for j=2:length(indexes)
     
     newResid = data{1,3}.initialResid{indexes{j}};

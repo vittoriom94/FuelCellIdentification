@@ -4,7 +4,8 @@ classdef NNUtils < handle
             trainSet = [];
             
             for i=1:classes
-                trainSet = [trainSet Z((i-1)*total+1:((i-1)*total+trainAmount),:)'];
+                totalSum = sum(total(1:i));
+                trainSet = [trainSet Z(totalSum+1:(totalSum+trainAmount(i)),:)'];
                 
                 
             end
@@ -13,13 +14,16 @@ classdef NNUtils < handle
         function targets = getTargets(results,classes,total,trainAmount)
             targets = [];
             for i=1:classes
-                targets = [targets results(:,(i-1)*total+1:((i-1)*total+trainAmount))];
+                totalSum = sum(total(1:i));
+                targets = [targets results(:,totalSum+1:(totalSum+trainAmount(i)))];
             end
         end
         function testingSet = getTestingSet(Z,classes,total,startFrom)
             testingSet = [];
             for i=1:classes
-                testingSet = [testingSet Z((i-1)*total+startFrom+1:((i)*total),:)'];
+                totalSum = sum(total(1:i));
+                totalSumEnd = sum(total(1:i+1));
+                testingSet = [testingSet Z(totalSum+startFrom(i)+1:(totalSumEnd),:)'];
             end
             
         end
@@ -71,27 +75,70 @@ classdef NNUtils < handle
                     for k=1:size(Zaug,1)
                         Z{(j-1)*size(Zaug,1)+k,i} = NNUtils.normalize(Zaug{k,1});
                         Zcluster((i-1)*(j-1)*size(Zaug,1)+k+(i-1)*amount,:) = [real(cell2mat(Z((j-1)*size(Zaug,1)+k,i))') imag(cell2mat(Z((j-1)*size(Zaug,1)+k,i))')];
-
+                        
                     end
-
+                    
                 end
             end
+            
+        end
+        function [Z,Zcluster,results,total,trainAmount] = augmentExisting(Z,Zcluster,results, total, trainAmount, mult)
+            
+            for i=1:length(trainAmount)
+                Zaug = {};
+                ZaugCluster = [];
+                resAug = [];
+                res = zeros(3,1);
+                res(i,1) = 1;
+                for j=1:trainAmount(i)
+                    newZ = generateFromImpedance(Z{j+sum(total(1:i))},mult);
+                    for k=1:size(newZ,1)
+                        newZ{k,1} = NNUtils.normalize(newZ{k,1});
+                        resAug = [resAug res];
+                    end
+                    Zaug = [Zaug;newZ];
+                    toMat = cell2mat(newZ')';
+                    ZaugCluster = [ZaugCluster; real(toMat) imag(toMat)];
+                    
+                    
+                end
+                if trainAmount(i) > 0
+                    startInd = sum(total(1:i)) + trainAmount(i);
+                    Z = [Z(1:startInd,1); Zaug; Z(startInd+1:end,1)];
+                    Zcluster = [Zcluster(1:startInd,:); ZaugCluster; Zcluster(startInd+1:end,:)];
+                    results = [results(:,1:startInd) resAug results(:,startInd+1:end)];
+                end
+                total(i+1) = (total(i+1)-trainAmount(i))+trainAmount(i)*mult;
+                trainAmount(i) = trainAmount(i)*mult;
+                
+                
+            end
+            
             
         end
         function wrongs = verifyResults(classes,total,trainAmount,classesAmount,classVerified)
             ok=0;
             wrongs = zeros(0,3);
-            for i=(classVerified-1)*(length(classes)/classesAmount)+1:(classVerified)*(length(classes))/classesAmount
+            
+            if classVerified == 1
+                startTests = 1;
+            else
+                startTests = 1+total(classVerified)-trainAmount(classVerified-1);
+            end
+            endTests = sum(total(2:classVerified+1)-trainAmount(1:classVerified));
+            %                 endTests = total(classVerified+1)-trainAmount(classVerified);
+            for i=startTests:endTests
+                %             for i=(classVerified-1)*(length(classes)/classesAmount)+1:(classVerified)*(length(classes))/classesAmount
                 if classes(i)==classVerified
                     ok=ok+1;
                 else
-                    number = i+trainAmount-(classVerified-1)*(total-trainAmount);
+                    number = i+trainAmount(classVerified)-startTests+1;
                     fprintf('[%d; %d] - %d - %d \n',number,classVerified,i, classes(i));
                     wrongs(end+1,:) = [number, classVerified, classes(i)];
                 end
             end
-            wrong = total-trainAmount-ok;
-            fprintf('\nCurve sbagliate: %d, perc: %.2f\n',wrong,wrong/(total-trainAmount)*100);
+            wrong = total(classVerified+1)-trainAmount(classVerified)-ok;
+            fprintf('\nCurve sbagliate: %d, perc: %.2f\n',wrong,wrong/(total(classVerified+1)-trainAmount(classVerified))*100);
             disp(["result is: " num2str(ok)]);
         end
         function impedance = normalize(impedance)

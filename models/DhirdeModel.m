@@ -1,6 +1,17 @@
-function [ impedance_spectrum_points ] = DhirdeModel( Romega, R1, R2, Q1, Q2, phi1, phi2, Rd, tauD, L, frequencies )
+function [ impedance_spectrum_points ] = DhirdeModel( params, frequencies )
 %DHIRDEMODEL Summary of this function goes here
 %   Detailed explanation goes here
+
+Romega = params(1);
+R1 = params(2);
+R2 = params(3);
+Q1 = params(4);
+Q2 = params(5);
+phi1 = params(6);
+phi2 = params(7);
+Rd = params(8);
+tauD = params(9); 
+L = params(10);
 
  puls = 2 * pi .* frequencies;
  
