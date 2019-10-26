@@ -1,6 +1,7 @@
 function [ impedance_spectrum_points ] = DissociatedElectrodesModelsSimplified( params, frequencies )
 
  % SIMPLIFIED MODEL
+ 
  %           C                               CPECath
  % _________// __________             __________\\ __________
  % |        //          |    Romega  |          //           |

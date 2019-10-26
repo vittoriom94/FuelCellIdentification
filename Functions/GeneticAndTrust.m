@@ -1,4 +1,4 @@
-function fitter = GeneticAndTrust(Z,frequency,cellName,function_model,numvar,lb,ub)
+function fitter = GeneticAndTrust(Z,frequency,cellName,function_model,lb,ub)
 
 folder = fileparts(which(mfilename));
 addpath(genpath(folder));
@@ -10,7 +10,7 @@ addpath(genpath(folder));
 
 % okFitting = false;
 environment = [Z , frequency];
-start = genetico(lb,ub,environment,function_model,numvar)
+start = genetico(lb,ub,environment,function_model)
 fitter = ImpedanceCurveFitter();
 fitter.loadData(real(Z),imag(Z),frequency, cellName);
 fitter.fit(start,lb,ub,1,1,false,function_model);
@@ -35,7 +35,7 @@ end
 end
 
 function params = getNewParams(params)
-variation = 1+(rand(1,6)-0.5)*0.4; %+-20%
+variation = 1+(rand(1,length(params))-0.5)*0.4; %+-20%
 params = params.*variation;
 
 end
@@ -51,12 +51,11 @@ for i=1:length(params)
 end
 end
 
-function params = genetico(lb,ub,environment,function_model,numvar)
+function params = genetico(lb,ub,environment,function_model)
 
-%     VFitnessFunction = @(x) fitness_function_Fouquet(function_model,x,environment);
-VFitnessFunction = @(x) objectiveSalvatore(x,environment);
-numberOfVariables = numvar;
-options = optimoptions(@ga,'PopulationSize',50,'MaxTime',180,'MaxGenerations',2000,'CrossoverFraction',0.8,'CrossoverFcn',@crossovertwopoint,'EliteCount',4,'SelectionFcn',@selectiontournament,'FunctionTolerance',10e-6);
+VFitnessFunction = @(x) fitnessFunctionNormalizzata(function_model,x,environment);
+numberOfVariables = length(ub);
+options = optimoptions(@ga,'PopulationSize',400,'MaxTime',180,'MaxGenerations',4000,'CrossoverFraction',0.8,'CrossoverFcn',@crossovertwopoint,'EliteCount',4,'SelectionFcn',@selectiontournament,'FunctionTolerance',10e-6);
 [x] = ga(VFitnessFunction,numberOfVariables,[],[],[],[],lb,ub,[],options);
 params = x;
 

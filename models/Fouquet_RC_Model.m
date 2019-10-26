@@ -1,8 +1,5 @@
-function [ impedance_spectrum_points ] = Fouquet_RC_Model( params, frequencies  )
-%FOUQUETMODEL La funzione, sulla base dei parametri , calcola lo
-%spettro di impedenza equivalente nei punti in frequenza forniti
-%
- %
+function [ impedance_spectrum_points ] = Fouquet_RC_Model( params, frequencies )
+
  %
  %                        CPE                       R
  %                _________\\___________     ____ /\/\/\____

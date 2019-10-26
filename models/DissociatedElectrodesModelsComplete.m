@@ -1,4 +1,4 @@
-function [ impedance_spectrum_points ] = DissociatedElectrodesModelsComplete( params, frequencies  )
+function [ impedance_spectrum_points ] = DissociatedElectrodesModelsComplete( params, frequencies )
 
  % COMPLETE MODEL
  

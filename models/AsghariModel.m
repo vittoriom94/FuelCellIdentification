@@ -1,21 +1,21 @@
 function [ impedance_spectrum_points ] = AsghariModel( params, frequencies )
-%ASGHARIMODEL La funzione, sulla base dei parametri , calcola lo
-%spettro di impedenza equivalente nei punti in frequenza forniti
-%
+
 %                              CPE 1              CPE 2
 %                          _____\\______      _____\\_____
 %      Rm         L       |     //     |     |     //     |
 % ___/\/\/\_____OOOOO_____|            |-----|            |-----
 %                         |___/\/\/\___|     |___/\/\/\___|
 %                              Rct                 Rmt   
+
 Rm = params(1);
-Rct = params(2);
-Rmt = params(3);
+Rct = params(2); 
+Rmt = params(3); 
 Q1 = params(4);
 Q2 = params(5);
 phi1 = params(6);
 phi2 = params(7);
 L = params(8);
+
 puls = 2 * pi .* frequencies;
 
 CPE1 = Q1 .* (1i.* puls).^phi1;

@@ -1,19 +1,20 @@
 function [ impedance_spectrum_points ] = R4C3Model( params, frequencies )
- %% Terzo modello - individua lo spettro di impedenza di un secondo circuito leggermente più complicato
+ %% Terzo modello - individua lo spettro di impedenza di un secondo circuito leggermente piï¿½ complicato
  %      R1       R2          R3         R4
  % ___/\/\/\___/\/\/\______/\/\/\_____/\/\/\____
  %           |         |  |       | |         |
  %           |___//____|  |__//___| |___//____|
  %              // C2       // C3      // C4
 
-puls = 2 * pi .* frequencies;
-R1 = params(1);
-R2 = params(2);
-R3 = params(3);
-R4 = params(4);
-C2 = params(5); 
-C3 = params(6); 
-C4 = params(7);
+ R1 = params(1);
+ R2 = params(2); 
+ R3 = params(3);
+ R4 = params(4);
+ C2 = params(5);
+ C3 = params(6);
+ C4 = params(7);
+ puls = 2 * pi .* frequencies;
+
  % calcolo le impedenze
  ZR1 = R1 + 0.*puls;
  ZR2 = R2 + 0.*puls;
@@ -36,7 +37,7 @@ C4 = params(7);
  %calcolo della serie tra i due paralleli e la resistenza R1
  Zser = ZR1 + ZparR2C2 + ZparR3C3 + ZparR4C4;
  
-  impedance_spectrum_points = Zser;
+ impedance_spectrum_points = Zser;
     
 
 end
