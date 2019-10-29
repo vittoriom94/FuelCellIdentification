@@ -43,8 +43,8 @@ printInfo(results);
 function printInfo(results)
 avg = averageExecutions(results)
 oneExe = directExecutions(results)
-variation = calculateVariation(results)
-f = counterGraph(results)
+variation = calculateVariation(results);
+% f = counterGraph(results)
 end
 
 % esecuzioni medie
@@ -60,8 +60,14 @@ end
 % variazione parametri iniziali -> parametri finali
 function variation = calculateVariation(results)
 variation = zeros(length(results),length(results(1).params));
+
 for i=1:length(results)
+    fprintf('%d',i);
     variation(i,:) = (results(i).finalStartParams - results(i).geneticParams)./results(i).geneticParams*100;
+    for j=1:length(variation(i,:))
+        fprintf('\t%d%%',round(variation(i,j)));
+    end
+    fprintf('\n');
 end
 end
 
