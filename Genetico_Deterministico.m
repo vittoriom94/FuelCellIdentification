@@ -3,7 +3,7 @@ close all
 clc
 
 folder = fileparts(which(mfilename)); 
-addpath(genpath(folder));
+addpath('.');
 
 % Quando si usano i file dalla cartella misureEifer bisogna invertire il
 % segno della parte reale e la parte immaginaria dell'impedenza
@@ -23,7 +23,7 @@ load('curve.mat')
 % R4C3
 % LLFin
 % LLFout
-name_model = 'Fouquet';
+name_model = 'LLFout';
 [model,lb,ub] = set_model_and_bound(name_model);
 
 FrequencyHz = chosenImages(12).data.FrequencyHz;

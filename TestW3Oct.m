@@ -13,12 +13,12 @@ addpath('../consegnaBassoRosa/GeneticoPulito/misureEifer/eifer/normal');
                 
 load('40A_c00.mat');
 
-lowerBound = [0.0 ; 0.0 ; 0.0 ; 0.0 ; 0.0 ; 0.0; 0.0; 0.0];
-upperBound = [0.1 ; 0.5 ; 1.0 ; 1.0 ; 0.5 ; 4.0; 10.0; 10.0];
+lowerBound = [0.0 ; 0.0 ; 0.0 ; 0.0 ; 0.0 ; 0.0 ];
+upperBound = [0.1 ; 0.5 ; 1.0 ; 1.0 ; 0.5 ; 4.0];
 amountOfData = 2000;
 data = generateUniformData(lowerBound, upperBound,amountOfData);
 result = struct('resid',[],'conf',[],'params',[]','minparams',[],'index',[],'outReason',[],'time',[]);
-[result.resid,result.conf,result.params,result.minparams,result.index,result.outReason,result.time] = fitMultiple(-realPartOfImpedance,-imagPartOfImpedance,FrequencyHz,lowerBound,upperBound,1,1,data);
+[result.resid,result.conf,result.params,result.minparams,result.index,result.outReason,result.time] = fitMultiple(-realPartOfImpedance,-imagPartOfImpedance,FrequencyHz,lowerBound,upperBound,1,1,data,@FouquetModel);
 smallestResid = result.resid(result.index)
 dataSize = length(FrequencyHz);
 rmse = sqrt(smallestResid/dataSize)
