@@ -15,7 +15,7 @@ CrossoverFraction = 0.8;
 MaxTimeSingleExecution = 300; % Seconds
 EliteCount = 4;
 
-NumeroEsecuzioni = 1;
+NumeroEsecuzioni = 300;
 
 alldata = struct('curva',1);
 for p = 1 : length(chosenImages)
