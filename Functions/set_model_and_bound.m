@@ -3,10 +3,10 @@ function [ model, lb, ub ] = set_model_and_bound(name_model)
 switch(name_model)
    case ('Fouquet')
         model = @FouquetModel;
-        ub = [1   1  10    1   1  10 ];
+        ub = [0.5   0.5  10    1   1  10 ];
    case ('FouquetRC')
         model = @Fouquet_RC_Model;
-        ub = [1   1  10    1   1  10   1   10];
+        ub = [0.5   0.5  10    1   1  10   1   10];
    case ('FouquetRCPE')
         model = @Fouquet_RCPE_Model;
         ub = [1   1  10    1   1  10   1   10  1];
@@ -40,6 +40,9 @@ switch(name_model)
    case ('LLFout')
         model = @LLFoutModel;
         ub = [1   1   10   1   1   10   10 ];
+   case ('FinalModel')
+        model = @Final_Model;
+        ub = [1   1   1   10   1   1   10  10  10 10];
 end
 
 lb = zeros(1,length(ub));
