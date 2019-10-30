@@ -25,6 +25,9 @@ switch(name_model)
    case ('DhirdeC')
         model = @Dhirde_C_Model;
         ub = [1   1   1   10   1   1   10  10  10];
+   case ('DhirdeCL')
+        model = @Final_Model;
+        ub = [1   1   1   10   1   1   10  10  10 10];
    case ('Asghari')
         model = @AsghariModel;
         ub = [1   1   1   10  10    1    1   10 ];
@@ -40,9 +43,6 @@ switch(name_model)
    case ('LLFout')
         model = @LLFoutModel;
         ub = [1   1   10   1   1   10   10 ];
-   case ('FinalModel')
-        model = @Final_Model;
-        ub = [1   1   1   10   1   1   10  10  10 10];
 end
 
 lb = zeros(1,length(ub));

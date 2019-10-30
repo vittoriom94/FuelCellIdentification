@@ -33,7 +33,7 @@ for p = 1 : length(chosenImages)
           elseif(m == 2)
               name_model = 'FouquetRC';
           elseif(m == 3)
-              name_model = 'FinalModel';
+              name_model = 'DhirdeCL';
           elseif(m == 4)
               name_model = 'Asghari';
           end

@@ -1,4 +1,4 @@
-function [ impedance_spectrum_points ] = Final_Model( params, frequencies )
+function [ impedance_spectrum_points ] = DhirdeCL( params, frequencies )
 
 %                              CPE 1              C 
 %                        ____\\______       _____//_____       __/warburg/__
