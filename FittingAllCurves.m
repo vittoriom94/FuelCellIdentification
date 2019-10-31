@@ -69,5 +69,6 @@ for p = 1 : length(chosenImages)
       disp(p);
 end
 
+save('ResultsAllData','alldata');
 %% Stampa the best Result
 %PlotCurves(model,info,environment);

@@ -26,7 +26,7 @@ switch(name_model)
         model = @Dhirde_C_Model;
         ub = [1   1   1   10   1   1   10  10  10];
    case ('DhirdeCL')
-        model = @Final_Model;
+        model = @DhirdeCL;
         ub = [1   1   1   10   1   1   10  10  10 10];
    case ('Asghari')
         model = @AsghariModel;
