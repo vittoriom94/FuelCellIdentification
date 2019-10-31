@@ -9,13 +9,14 @@ load ('curve.mat')
 
 %SETTAGGIO ALGORITMO
 PopulationSize = 400;
-FunctionTolerance = 10e-9;
-MaxGenerations = 7500;
+FunctionTolerance = 10e-8;
+MaxGenerations = 7000;
 CrossoverFraction = 0.8;
-MaxTimeSingleExecution = 300; % Seconds
+MaxTimeSingleExecution = 200; % Seconds
 EliteCount = 4;
 
-NumeroEsecuzioni = 300;
+NumeroEsecuzioni = 100;
+fit_function = @fitnessFunctionNormalizzata;
 
 alldata = struct('curva',1);
 for p = 1 : length(chosenImages)
@@ -39,7 +40,6 @@ for p = 1 : length(chosenImages)
           end
 
           [model,lb,ub] = set_model_and_bound(name_model);
-          fit_function = @fitnessFunctionNormalizzata;
           
           info = struct('model',cell(1,NumeroEsecuzioni),'bestInd',cell(1,NumeroEsecuzioni),'fobj',cell(1,NumeroEsecuzioni),'RMSE',cell(1,NumeroEsecuzioni),'time',cell(1,NumeroEsecuzioni),'generations',cell(1,NumeroEsecuzioni),'message',cell(1,NumeroEsecuzioni));
           options = optimoptions(@ga,'PopulationSize',PopulationSize,'MaxTime',MaxTimeSingleExecution,'MaxGenerations',MaxGenerations,'CrossoverFraction',CrossoverFraction,'CrossoverFcn',@crossovertwopoint,'EliteCount',EliteCount,'SelectionFcn',@selectiontournament,'FunctionTolerance',FunctionTolerance);
