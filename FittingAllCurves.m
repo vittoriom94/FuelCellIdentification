@@ -5,7 +5,13 @@ clc
 folder = fileparts(which(mfilename)); 
 addpath(genpath(folder));
 
-load ('curve.mat')
+curveBuonePath = '../Buone/';
+images = dir([curveBuonePath,'/*.jpg']);
+imagesStruct =  {images.name}';
+imagesStruct(:,2) = {0};
+dataset = DataSet('../ImportData',imagesStruct);
+% chosenImages = dataset.classifiedImages(1:50);
+chosenImages = dataset.classifiedImages;
 
 %SETTAGGIO ALGORITMO
 PopulationSize = 400;
