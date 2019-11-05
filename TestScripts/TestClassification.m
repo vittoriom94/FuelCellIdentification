@@ -9,7 +9,8 @@ addpath(genpath('.'));
 % load('simuDataNN.mat');
 
 % voglio usare lo stesso dataset di 30000 curve
-% [Z,Zcluster,results] = Classification.generateData(total,trainAmount,false);
+simudata = struct('Z',[],'Zcluster',[],'results',[]);
+[simudata.Z,simudata.Zcluster,simudata.results] = Classification.generateData(10000,2000,false);
 
 %% caso 1: 500 curve generate
 % 1.1 24 nodi
@@ -24,6 +25,9 @@ dataset = DataSet('../ImportData',c.classifier);
 images = dataset.classifiedImages;
 dim = length(images);
 
+% simudata = load('simuDataNN.mat');
+
+total = [ 0 0 140 157];
 for i=1:dim
 
    
@@ -35,19 +39,36 @@ for i=1:dim
     
     
 end
-total = [ 0 0 140 157];
-trainAmount = [ 0 40 57];
+% a questo punto carico il dataset generato
+% lo inserisco PRIMA del dataset reale
+% e aggiusto come di dovere totale e trainAmount
+trainAm = 10000;
+swapAt = 10000;
+for i=2:length(total)
+    % Z lo lascio stare sperando che funzioni tutto
+    untilNow = sum(total(1:i-1));
+    Zcluster = [Zcluster(1:untilNow,:) ;simudata.Zcluster(swapAt*(i-2)+1:swapAt*(i-2)+trainAm,:) ;Zcluster(untilNow+1:end,:)];
+    results = [results(:,1:untilNow)   simudata.results(:,swapAt*(i-2)+1:swapAt*(i-2)+trainAm)   results(:,untilNow+1:end)];
+    total(i) = trainAm+total(i);
+
+end
+
+
+
+
+
+ trainAmount = [ 10000 10000 10000];
 % base = 100;
 % [Z,Zcluster] = NNUtils.augment(Z,Zcluster, total, trainAmount, base);
 mult = 5;
-[Z,Zcluster,results,total,trainAmount] = NNUtils.augmentExisting(Z,Zcluster,results, total, trainAmount, mult);
+% [Z,Zcluster,results,total,trainAmount] = NNUtils.augmentExisting(Z,Zcluster,results, total, trainAmount, mult);
 layers = {24,48,96,[24 12],[48 24],[96 48], [96 48 24]};
 linesName = {'Rete 24','Rete 48','Rete 96','Rete 24 - 12','Rete 48 - 24','Rete 96 - 48','Rete 96 - 48 -24'};
 disp('TEST');
 allWrongs = {};
 for i=1:length(layers)
     fprintf('Testing layer %d\n',i);
-    for j=1:10
+    for j=1:1
         fprintf('Attempt number %d\n',j);
         
         trainedNet = Classification.trainNet(layers{i},Zcluster,results,total,trainAmount);

@@ -43,8 +43,8 @@ classdef Classification
             
             
             
-            lb1 = [0.0 0.2 0.001];
-            ub1 = [0.5 0.5 0.005];
+            lb1 = [0.0 0.2 0.01];
+            ub1 = [0.5 0.5 0.05];
             model1 = generateUniformData(lb1, ub1,total);
             
             
@@ -63,9 +63,9 @@ classdef Classification
                 [Z3,Zcluster3,results3] = NNUtils.generateTestingDataAugmented(@R4C3Model,total,trainAmount,base,3,3,model3,freq,0.1,2);
                 
             else
-                [Z1,Zcluster1,results1] = NNUtils.generateTestingData(@RRCModel,total,3,1,model1,freq,0.1,2);
-                [Z2,Zcluster2,results2] = NNUtils.generateTestingData(@RRRCCModel,total,3,2,model2,freq,0.1,2);
-                [Z3,Zcluster3,results3] = NNUtils.generateTestingData(@R4C3Model,total,3,3,model3,freq,0.1,2);
+                [Z1,Zcluster1,results1] = NNUtils.generateTestingData(@RRCModel,total,3,1,model1,freq,0.02,2);
+                [Z2,Zcluster2,results2] = NNUtils.generateTestingData(@RRRCCModel,total,3,2,model2,freq,0.05,2);
+                [Z3,Zcluster3,results3] = NNUtils.generateTestingData(@R4C3Model,total,3,3,model3,freq,0.05,2);
             end
             Z(:,1) = Z1;
             Z(:,2) = Z2;

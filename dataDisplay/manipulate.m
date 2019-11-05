@@ -170,10 +170,10 @@ set(fig_h, 'Position', figure_pos);
 
 %% Start plotting!!
 data = init_y;     
-plot_h = plot(real(data), -imag(data));
+plot_h = plot(real(data), -imag(data), 'Marker','.','MarkerSize',8);
 hold on
 if ~isempty(refX) && ~isempty(refY)
-    plot(refX,-refY);
+    plot(refX,-refY, 'Marker','.','MarkerSize',8);
 end
 set(axes_h,'XLim', XLim, 'XLimMode', LimMode, 'YLim', YLim, 'YLimMode', LimMode);
 

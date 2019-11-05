@@ -72,6 +72,57 @@ classdef ShowData < handle
             ShowData.showByZ('Fittings',names,Z);
             
         end
+        
+        function f = showByZFrequency(names,Z,freqs)
+            % names = column vector {'a';'b';'c'}
+
+            set(groot,'defaultAxesColorOrder','remove')
+            if length(Z) >=2 && rem(length(Z),2)==0 && length(names)==length(Z)/2
+                f = figure();
+                subplot(2,1,1)
+                hold on
+                grid on
+                set(gca, 'XScale', 'log');
+%                 axis equal
+                xlabel('Hz')
+                ylabel('Re(Z) [\Omega]');
+                plot(freqs{1},Z{1},'- k',...
+                    'Marker','+','MarkerSize',7);
+                
+                subplot(2,1,2)
+                hold on
+                grid on
+                set(gca, 'XScale', 'log');
+%                 axis equal
+                xlabel('Hz')
+                ylabel('-Im(Z) [\Omega]');
+                
+                plot(freqs{1},-Z{2},'- k',...
+                    'Marker','+','MarkerSize',7);
+                
+%                 xticks(floor(Z{1}(1,1)):0.02:ceil(Z{1}(48,1)));
+%                 yticks(-0.1:0.02:0.2);
+%                 xticklabels(xticks*1000);
+%                 yticklabels(yticks*1000);
+%                 a = get(gca,'XTickLabel');
+%                 set(gca,'XTickLabel',a,'fontsize',7);
+                
+%                 a = get(gca,'YTickLabel');
+%                 set(gca,'YTickLabel',a,'fontsize',7);
+                
+                for i=3:2:length(Z)
+                    subplot(2,1,1)
+                    plot(freqs{(i+1)/2},Z{i},...
+                    'Marker','.','MarkerSize',12);
+                    subplot(2,1,2)
+                    plot(freqs{(i+1)/2},-Z{i+1},...
+                    'Marker','.','MarkerSize',10);
+                end
+                hold off
+                subplot(2,1,1)
+                legend(names);
+            end
+        end
     end
 end
 

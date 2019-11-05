@@ -22,7 +22,8 @@ confidence = fitter.ConfidenceIntervals;
 
 okFitting = checkIntervals(fitter.Params, confidence);
 counter = 1;
-while okFitting == false
+limit = 10000;
+while okFitting == false && counter < limit
     fprintf('%d ',counter);
     %     start = genetico(lb,ub,environment,function_model,numvar)
     %     fitter = ImpedanceCurveFitter();
@@ -33,7 +34,7 @@ while okFitting == false
     okFitting = checkIntervals(fitter.Params, confidence);
 %     fitter.Params
 %     fitter.ConfidenceIntervals
-    start = getNewParams(start,lb,ub);
+    start = getNewParams(fitter.Params,lb,ub);
     counter= counter+1;
 end
 fprintf('OK\n');
