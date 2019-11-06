@@ -4,9 +4,6 @@ switch(name_model)
    case ('Fouquet')
         model = @FouquetModel;
         ub = [0.5   0.5  10    1   1  10 ];
-   case ('DoubleFouquet')
-        model = @DoubleFouquet;
-        ub = [0.5   0.5  10    1   1  10  0.5  10    1   1  10];
    case ('FouquetRC')
         model = @Fouquet_RC_Model;
         ub = [0.5   0.5  10    1   1  10   1   10];
@@ -25,6 +22,9 @@ switch(name_model)
    case ('Dhirde')
         model = @DhirdeModel;
         ub = [1   1   1   10  10    1    1   1   10  10];
+   case ('DhirdeL')
+        model = @DhirdeL;
+        ub = [1   1   1   10  10    1    1   1   10  10  10];
    case ('DhirdeC')
         model = @Dhirde_C_Model;
         ub = [1   1   1   10   1   1   10  10  10];
