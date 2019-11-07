@@ -1,7 +1,7 @@
 classdef ShowData < handle
     %SHOWDATA Summary of this class goes here
     %   Detailed explanation goes here
- 
+    
     methods(Static)
         function f = showByZ(graphTitle,names,Z)
             % names = column vector {'a';'b';'c'}
@@ -22,15 +22,15 @@ classdef ShowData < handle
                 plot(Z{1},-Z{2},'- k',...
                     'Marker','.','MarkerSize',14);
                 
-%                 xticks(floor(Z{1}(1,1)):0.02:ceil(Z{1}(48,1)));
-%                 yticks(-0.1:0.02:0.2);
-%                 xticklabels(xticks*1000);
-%                 yticklabels(yticks*1000);
-%                 a = get(gca,'XTickLabel');
-%                 set(gca,'XTickLabel',a,'fontsize',7);
+                %                 xticks(floor(Z{1}(1,1)):0.02:ceil(Z{1}(48,1)));
+                %                 yticks(-0.1:0.02:0.2);
+                %                 xticklabels(xticks*1000);
+                %                 yticklabels(yticks*1000);
+                %                 a = get(gca,'XTickLabel');
+                %                 set(gca,'XTickLabel',a,'fontsize',7);
                 
-%                 a = get(gca,'YTickLabel');
-%                 set(gca,'YTickLabel',a,'fontsize',7);
+                %                 a = get(gca,'YTickLabel');
+                %                 set(gca,'YTickLabel',a,'fontsize',7);
                 
                 for i=3:2:length(Z)
                     plot(Z{i},-Z{i+1},...
@@ -75,7 +75,7 @@ classdef ShowData < handle
         
         function f = showByZFrequency(names,Z,freqs)
             % names = column vector {'a';'b';'c'}
-
+            
             set(groot,'defaultAxesColorOrder','remove')
             if length(Z) >=2 && rem(length(Z),2)==0 && length(names)==length(Z)/2
                 f = figure();
@@ -83,7 +83,7 @@ classdef ShowData < handle
                 hold on
                 grid on
                 set(gca, 'XScale', 'log');
-%                 axis equal
+                %                 axis equal
                 xlabel('Hz')
                 ylabel('Re(Z) [\Omega]');
                 plot(freqs{1},Z{1},'- k',...
@@ -93,35 +93,77 @@ classdef ShowData < handle
                 hold on
                 grid on
                 set(gca, 'XScale', 'log');
-%                 axis equal
+                %                 axis equal
                 xlabel('Hz')
                 ylabel('-Im(Z) [\Omega]');
                 
                 plot(freqs{1},-Z{2},'- k',...
                     'Marker','+','MarkerSize',7);
                 
-%                 xticks(floor(Z{1}(1,1)):0.02:ceil(Z{1}(48,1)));
-%                 yticks(-0.1:0.02:0.2);
-%                 xticklabels(xticks*1000);
-%                 yticklabels(yticks*1000);
-%                 a = get(gca,'XTickLabel');
-%                 set(gca,'XTickLabel',a,'fontsize',7);
+                %                 xticks(floor(Z{1}(1,1)):0.02:ceil(Z{1}(48,1)));
+                %                 yticks(-0.1:0.02:0.2);
+                %                 xticklabels(xticks*1000);
+                %                 yticklabels(yticks*1000);
+                %                 a = get(gca,'XTickLabel');
+                %                 set(gca,'XTickLabel',a,'fontsize',7);
                 
-%                 a = get(gca,'YTickLabel');
-%                 set(gca,'YTickLabel',a,'fontsize',7);
+                %                 a = get(gca,'YTickLabel');
+                %                 set(gca,'YTickLabel',a,'fontsize',7);
                 
                 for i=3:2:length(Z)
                     subplot(2,1,1)
                     plot(freqs{(i+1)/2},Z{i},...
-                    'Marker','.','MarkerSize',12);
+                        'Marker','.','MarkerSize',12);
                     subplot(2,1,2)
                     plot(freqs{(i+1)/2},-Z{i+1},...
-                    'Marker','.','MarkerSize',10);
+                        'Marker','.','MarkerSize',10);
                 end
                 hold off
                 subplot(2,1,1)
                 legend(names);
             end
+        end
+        
+        function f = showPage(Z,params,models,freq,cellName,errors,otherData)
+            % stampa z sperimentale: no linea solo cerchi
+            % cicla su params e models per stamparli
+            f = figure();
+            set(f,'units','pix','position',[100 100 600 900])
+            
+            ax = axes(f);
+            set(ax,'units','pix','position',[40 340 520 520])
+%             title(graphTitle)
+            hold on
+            grid on
+            axis equal
+            xlabel('Re(Z) [\Omega]');
+            ylabel('-Im(Z) [\Omega]');
+            
+            baseX = 10;
+            baseY = 300;
+            lengthX = 600;
+            lengthY = 50;
+            spacingY = 10;
+            
+            for i=1:length(params)
+               model = set_model_and_bound(models{i});
+               imp = model(params{i},freq);
+               plot(real(imp),-imag(imp),'Marker','.','MarkerSize',12);
+               paramsString
+               for j=1:length(params{i})
+                   
+               end                
+            end
+            plot(ax,real(Z),-imag(Z),'k',...
+                'Marker','o','MarkerSize',8,'LineStyle','none');
+            
+            %il testo posso metterlo da 1 a 600 per la x e da 1 a 300 per
+            %la y
+
+            text1 = uicontrol(f,'style','text','Units','pixels','String','Testo di prova',...
+                'Position',[1 1 100 20]);
+
+
         end
     end
 end

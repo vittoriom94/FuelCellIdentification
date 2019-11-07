@@ -13,11 +13,11 @@ images = dir([curveBuonePath,'/*.jpg']);
 imagesStruct =  {images.name}';
 imagesStruct(:,2) = {0};
 dataset = DataSet('../ImportData',imagesStruct);
-chosenImages = dataset.classifiedImages(12:12);
+chosenImages = dataset.classifiedImages(1:20);
 % chosenImages = dataset.classifiedImages;
 % effettuare il fitting con i modelli diversi
-models = {'Fouquet','FouquetRC','Dhirde','DhirdeC','DhirdeCL'};
-amount = 2000;
+models = {'Dhirde','DhirdeL','DhirdeCL'};
+amount = 1000;
 for m=1:length(models)
     [ ~, lowerBound, upperBound ] = set_model_and_bound(models{m});
     start(m) = {generateUniformData(lowerBound, upperBound,amount)} ;
