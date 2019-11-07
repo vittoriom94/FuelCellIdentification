@@ -124,44 +124,49 @@ classdef ShowData < handle
             end
         end
         
-        function f = showPage(Z,params,models,freq,cellName,errors,otherData)
+        function f = showPage(Z,params,models,freq,cellName,otherData)
             % stampa z sperimentale: no linea solo cerchi
             % cicla su params e models per stamparli
             f = figure();
-            set(f,'units','pix','position',[100 100 600 900])
+            set(f,'units','pix','position',[900 100 600 900])
             
             ax = axes(f);
-            set(ax,'units','pix','position',[40 340 520 520])
+            set(ax,'units','pix','position',[70 340 490 520])
 %             title(graphTitle)
             hold on
             grid on
             axis equal
             xlabel('Re(Z) [\Omega]');
             ylabel('-Im(Z) [\Omega]');
-            
+            title(replace(cellName,'_','\_'));
             baseX = 10;
-            baseY = 300;
-            lengthX = 600;
-            lengthY = 50;
+            baseY = 1;
+            lengthX = 200;
+            lengthY = 280;
             spacingY = 10;
+            spacingX = 10;
             
             for i=1:length(params)
-               model = set_model_and_bound(models{i});
+               [model,~,~,names] = set_model_and_bound(models{i});
                imp = model(params{i},freq);
                plot(real(imp),-imag(imp),'Marker','.','MarkerSize',12);
-               paramsString
-               for j=1:length(params{i})
-                   
-               end                
+               fs = sprintf('%s\n\n',models{i});
+               for j=1:length(names)
+                   fs = [fs names{j} ' = ' sprintf('%.4g;\n',params{i}(j))]; 
+               end 
+               fs  = [fs sprintf('\nRMSE = %.4g\nErmse = %.4g',RMSE(Z,imp),RMSE(Z,imp)/max(abs(Z)))];
+               uicontrol(f,'style','text','Units','pixels','String',fs,...
+                'Position',[baseX baseY lengthX lengthY],'FontSize',10,...
+                'HorizontalAlignment','left');
+               baseX = baseX + lengthX + spacingX;
+
             end
             plot(ax,real(Z),-imag(Z),'k',...
                 'Marker','o','MarkerSize',8,'LineStyle','none');
-            
+            legend([models 'Sperimentale']);
             %il testo posso metterlo da 1 a 600 per la x e da 1 a 300 per
             %la y
 
-            text1 = uicontrol(f,'style','text','Units','pixels','String','Testo di prova',...
-                'Position',[1 1 100 20]);
 
 
         end
