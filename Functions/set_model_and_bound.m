@@ -37,6 +37,10 @@ switch(name_model)
         model = @DhirdeL;
         ub = [1   1   1   10  10    1    1   1   10  10  10];
         lb = [0   0   0   0   0   0   0   0   0.1   0  0];
+   case ('DhirdeLWARL')
+        model = @DhirdeLWARL;
+        ub = [1   1   1   10  10    1    1   1   10  10  10  1  10  10];
+        lb = [0   0   0   0   0   0   0   0   0.1   0  0   0   0   0];
    case ('DhirdeLCPE')
         model = @DhirdeLCPE;
         ub = [1   1   1   10  10    1    1   1   10  10  10  10  1  1];
