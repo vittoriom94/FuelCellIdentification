@@ -1,22 +1,20 @@
-function [ model, lb, ub ] = set_model_and_bound(name_model)
-
+function [ model, lb, ub ,names] = set_model_and_bound(name_model)
+names = {};
 switch(name_model)
    case ('Fouquet')
         model = @FouquetModel;
         ub = [0.5   0.5  10    1   1  10 ];
         lb = zeros(1,length(ub));
+        names = {'Romega','Rct','Q','phi','Rd','tauD'};
    case ('FouquetRC')
         model = @Fouquet_RC_Model;
         ub = [0.5   0.5  10    1   1  10   1   10];
         lb = zeros(1,length(ub));
+        names = {'Romega','Rct','Q','phi','Rd','tauD','R','C'};
    case ('FouquetRCPE')
-        model = @FouquetRCPE;
-        ub = [0.5   0.5  10    1   1  10   1   10  1];
-        lb = [0   0   0   0   0   0.1   0   0   0];
-   case ('FouquetRCPEL')
-        model = @FouquetRCPEL;
-        ub = [0.5   0.5  10    1   1   10    1   10   1   10];
-        lb = [0     0    0     0   0   0.1   0   0    0   0];
+        model = @Fouquet_RCPE_Model;
+        ub = [1   1  10    1   1  10   1   10  1];
+        lb = zeros(1,length(ub));
    case ('FouquetRWar')
         model = @Fouquet_RWar_Model;
         ub = [1   1  10    1   1  10   1   1  10];
@@ -30,13 +28,15 @@ switch(name_model)
         ub = [10   1   1   10    1   1   1   10];
         lb = zeros(1,length(ub));
    case ('Dhirde')
-        model = @Dhirde;
+        model = @DhirdeModel;
         ub = [1   1   1   10  10    1    1   1   10  10];
-        lb = [0   0   0   0   0   0   0   0   0.1   0];
+        lb = zeros(1,length(ub));
+        names = {'Romega','Rct1','Rct2','Q1','Q2','phi1','phi2','Rd','tauD','L'};
    case ('DhirdeL')
         model = @DhirdeL;
         ub = [1   1   1   10  10    1    1   1   10  10  10];
-        lb = [0   0   0   0   0   0   0   0   0.1   0  0];
+        lb = zeros(1,length(ub));
+        names = {'Romega','Rct1','Rct2','Q1','Q2','phi1','phi2','Rd','tauD','Lhf','Llf'};
    case ('DhirdeLWARL')
         model = @DhirdeLWARL;
         ub = [1   1   1   10  10    1    1   1   10  10  10  1  10  10];
@@ -53,14 +53,17 @@ switch(name_model)
         model = @DhirdeLCPECPE;
         ub = [1   1   1   10  10    1    1   1   10  10  10  10  1  1  10  1  1];
         lb = [0   0   0   0   0   0   0   0   0.1   0  0   0   0   0   0   0   0];
-   case ('DhirdeC')
+
+    case ('DhirdeC')
         model = @Dhirde_C_Model;
         ub = [1   1   1   10   1   1   10  10  10];
         lb = zeros(1,length(ub));
+        names = {'Romega','Rct1','Rct2','Q','phi','Rd','tauD','L','C'};
    case ('DhirdeCL')
         model = @DhirdeCL;
         ub = [1   1   1   10   1   1   10  10  10 10];
-        lb = [0   0   0   0   0   0   0.1   0   0   0];
+        lb = zeros(1,length(ub));
+        names = {'Romega','Rct1','Rct2','Q','phi','Rd','tauD','Lhf','Llf','C'};
    case ('Asghari')
         model = @AsghariModel;
         ub = [1   1   1   10  10    1    1   10 ];
@@ -83,4 +86,3 @@ switch(name_model)
         lb = zeros(1,length(ub));
 end
 
-%lb = zeros(1,length(ub));
