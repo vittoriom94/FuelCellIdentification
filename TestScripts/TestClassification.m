@@ -10,7 +10,7 @@ addpath(genpath('.'));
 
 % voglio usare lo stesso dataset di 30000 curve
 simudata = struct('Z',[],'Zcluster',[],'results',[]);
-[simudata.Z,simudata.Zcluster,simudata.results] = Classification.generateData(10000,2000,false);
+[simudata.Z,simudata.Zcluster,simudata.results] = Classification.generateData(2000,2000,false);
 
 %% caso 1: 500 curve generate
 % 1.1 24 nodi
@@ -42,8 +42,8 @@ end
 % a questo punto carico il dataset generato
 % lo inserisco PRIMA del dataset reale
 % e aggiusto come di dovere totale e trainAmount
-trainAm = 10000;
-swapAt = 10000;
+trainAm = 2000;
+swapAt = 2000;
 for i=2:length(total)
     % Z lo lascio stare sperando che funzioni tutto
     untilNow = sum(total(1:i-1));
@@ -57,7 +57,27 @@ end
 
 
 
- trainAmount = [ 10000 10000 10000];
+ trainAmount = [ trainAm trainAm trainAm];
+ 
+ 
+ 
+ % qui mi devo chiamare una funzione per convertire a immagini, gli passo
+ % Zcluster, da cui mi prendo i punti reali e immaginari e ritorno una
+ % struttura
+ 
+ classes = vec2ind(results);
+ for i=1:size(Zcluster,1)
+     f = figure('Visible',false);
+    plot(Zcluster(i,1:48),Zcluster(i,49:96),'k');
+    set(gca, 'Visible', 'off')
+    type = classes(i);
+    pathToSave = ['./classImages/' num2str(type) '/' num2str(i)];
+    saveas(f',pathToSave,'png');
+     close(f);
+     
+ end
+ 
+ 
 % base = 100;
 % [Z,Zcluster] = NNUtils.augment(Z,Zcluster, total, trainAmount, base);
 mult = 5;
@@ -71,9 +91,11 @@ for i=1:length(layers)
     for j=1:1
         fprintf('Attempt number %d\n',j);
         
-        trainedNet = Classification.trainNet(layers{i},Zcluster,results,total,trainAmount);
-        [newWrongs, testing] = Classification.testNet(trainedNet,Zcluster,total,trainAmount);
-        allWrongs(i,j) = {newWrongs};
+%         trainedNet = Classification.trainNet(layers{i},Zcluster,results,total,trainAmount);
+%         [newWrongs, testing] = Classification.testNet(trainedNet,Zcluster,total,trainAmount);
+%         allWrongs(i,j) = {newWrongs};
+
+% faccio come sulla wiki qui
 
         
     end

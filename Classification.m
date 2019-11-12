@@ -43,29 +43,28 @@ classdef Classification
             
             
             
-            lb1 = [0.0 0.2 0.01];
-            ub1 = [0.5 0.5 0.05];
+            lb1 = [0.0 0.15 0.1  0.65 0 1 ];
+            ub1 = [0.2 0.3  0.25 0.82 0 1];
             model1 = generateUniformData(lb1, ub1,total);
             
-            
-            lb2 = [0.0 0.4 0.55 0.02 0.7];
-            ub2 = [0.5 0.6 0.75 0.05 1.2];
+            lb2 = [0.0 0.15 0.1  0.65 0.03 0.4 ];
+            ub2 = [0.2 0.3  0.25 0.82 0.2  0.65];
             model2 = generateUniformData(lb2, ub2,total);
             
-            lb3 = [0.0 0.4 0.55 0.7 0.0005 0.02 0.7];
-            ub3 = [0.5 0.6 0.75 1.0 0.004 0.05 1.2];
+            lb3 = [0.0 0.025 0.05 1.8 0.1  0.85 0.55 0.015 5.9 0.08];
+            ub3 = [0.2 0.085 0.2  2.8 0.25 1    0.85 0.05  7.2 0.13];
             model3 = generateUniformData(lb3, ub3,total);
             % f = figure
             % hold on
             if augment == true
-                [Z1,Zcluster1,results1] = NNUtils.generateTestingDataAugmented(@RRCModel,total,trainAmount,base,3,1,model1,freq,0.1,2);
-                [Z2,Zcluster2,results2] = NNUtils.generateTestingDataAugmented(@RRRCCModel,total,trainAmount,base,3,2,model2,freq,0.1,2);
-                [Z3,Zcluster3,results3] = NNUtils.generateTestingDataAugmented(@R4C3Model,total,trainAmount,base,3,3,model3,freq,0.1,2);
+                [Z1,Zcluster1,results1] = NNUtils.generateTestingDataAugmented(@FouquetModel,total,trainAmount,base,3,1,model1,freq,0.1,2);
+                [Z2,Zcluster2,results2] = NNUtils.generateTestingDataAugmented(@FouquetModel,total,trainAmount,base,3,2,model2,freq,0.1,2);
+                [Z3,Zcluster3,results3] = NNUtils.generateTestingDataAugmented(@DhirdeModel,total,trainAmount,base,3,3,model3,freq,0.1,2);
                 
             else
-                [Z1,Zcluster1,results1] = NNUtils.generateTestingData(@RRCModel,total,3,1,model1,freq,0.02,2);
-                [Z2,Zcluster2,results2] = NNUtils.generateTestingData(@RRRCCModel,total,3,2,model2,freq,0.05,2);
-                [Z3,Zcluster3,results3] = NNUtils.generateTestingData(@R4C3Model,total,3,3,model3,freq,0.05,2);
+                [Z1,Zcluster1,results1] = NNUtils.generateTestingData(@FouquetModel,total,3,1,model1,freq,0.02,2);
+                [Z2,Zcluster2,results2] = NNUtils.generateTestingData(@FouquetModel,total,3,2,model2,freq,0.05,2);
+                [Z3,Zcluster3,results3] = NNUtils.generateTestingData(@DhirdeModel,total,3,3,model3,freq,0.05,2);
             end
             Z(:,1) = Z1;
             Z(:,2) = Z2;

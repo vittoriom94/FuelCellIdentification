@@ -86,8 +86,8 @@ classdef ShowData < handle
                 %                 axis equal
                 xlabel('Hz')
                 ylabel('Re(Z) [\Omega]');
-                plot(freqs{1},Z{1},'- k',...
-                    'Marker','+','MarkerSize',7);
+                plot(freqs{1},Z{1},'k',...
+                'Marker','o','MarkerSize',8,'LineStyle','none');
                 
                 subplot(2,1,2)
                 hold on
@@ -97,8 +97,8 @@ classdef ShowData < handle
                 xlabel('Hz')
                 ylabel('-Im(Z) [\Omega]');
                 
-                plot(freqs{1},-Z{2},'- k',...
-                    'Marker','+','MarkerSize',7);
+                plot(freqs{1},-Z{2},'k',...
+                'Marker','o','MarkerSize',8,'LineStyle','none');
                 
                 %                 xticks(floor(Z{1}(1,1)):0.02:ceil(Z{1}(48,1)));
                 %                 yticks(-0.1:0.02:0.2);

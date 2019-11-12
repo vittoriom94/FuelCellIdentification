@@ -34,6 +34,32 @@ for i=1:length(fittingSet)
    models = fittingSet(i).models;
    name = fittingSet(i).name;
    f = ShowData.showPage(Z,params,models,freq,name,[]);
+   saveas(f,['images/Prime20Freq/fitt_' fittingSet(i).name]);
    close(f);
     
+end
+
+
+for c=1:length(fittingSet)
+    Z = cell(2+length(fittingSet(c).models)*2,1);
+    freqs = cell(1+length(fittingSet(c).models),1);
+    names = cell(1+length(fittingSet(c).models),1);
+    
+    freqs(1) = {fittingSet(c).data.FrequencyHz};
+    Z(1) = {fittingSet(c).data.realPartOfImpedance};
+    Z(2) = {fittingSet(c).data.imagPartOfImpedance};
+    names(1) = {'Sperimentale'};
+    for i=1:length(fittingSet(c).models)
+        names(1+i) = fittingSet(c).models(i);
+        
+        % devo generare la curva
+        model = set_model_and_bound(fittingSet(c).models{i});
+        curva = model(fittingSet(c).params{i},fittingSet(c).data.FrequencyHz);
+        freqs(1+i) = {fittingSet(c).data.FrequencyHz};
+        Z(2+2*i-1) = {real(curva)};
+        Z(2+2*i) = {imag(curva)};
+    end
+    f = ShowData.showByZFrequency(names,Z,freqs); 
+    saveas(f,['images/Prime20Freq/freq_' fittingSet(c).name]);
+    close(f)
 end

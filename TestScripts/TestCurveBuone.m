@@ -13,10 +13,10 @@ images = dir([curveBuonePath,'/*.jpg']);
 imagesStruct =  {images.name}';
 imagesStruct(:,2) = {0};
 dataset = DataSet('../ImportData',imagesStruct);
-chosenImages = dataset.classifiedImages(1:20);
+chosenImages = dataset.classifiedImages(9:9);
 % chosenImages = dataset.classifiedImages;
 % effettuare il fitting con i modelli diversi
-models = {'Dhirde','DhirdeL','DhirdeCL'};
+models = {'DhirdeLCPEWARL'};
 amount = 1000;
 for m=1:length(models)
     [ ~, lowerBound, upperBound ] = set_model_and_bound(models{m});
@@ -78,4 +78,4 @@ for i=1:length(fittingSet)
 end
 
 %%
-save('data/fittingSetPrime10.mat','fittingSet')
+% save('data/fittingSetPrime10.mat','fittingSet')
