@@ -16,7 +16,7 @@ dataset = DataSet('../ImportData',imagesStruct);
 chosenImages = dataset.classifiedImages(9:9);
 % chosenImages = dataset.classifiedImages;
 % effettuare il fitting con i modelli diversi
-models = {'DhirdeLCPEWARL'};
+models = {'DhirdeLWARL'};
 amount = 1000;
 for m=1:length(models)
     [ ~, lowerBound, upperBound ] = set_model_and_bound(models{m});
