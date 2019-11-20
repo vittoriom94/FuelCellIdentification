@@ -9,16 +9,20 @@ function [ impedance_spectrum_points ] = DhirdeL( params, frequencies )
 
  Romega = params(1);
  Rct1 = params(2);
- Rct2 = params(3);
- Q1 = params(4);
- Q2 = params(5);
- phi1 = params(6);
- phi2 = params(7);
- Rd = params(8);
- tauD = params(9);
- Lhf = params(10);
- Llf = params(11);
- 
+
+ Q1 = params(3);
+
+ phi1 = params(4);
+
+ Rd = params(5);
+ tauD = params(6);
+
+ Llf = params(7);
+  Lhf = params(8);
+  Rct2 = params(9);
+  Q2 = params(10);
+  phi2 = params(11);
+  
  puls = 2 * pi .* frequencies;
  
  rad = sqrt(1i.*puls*tauD);
