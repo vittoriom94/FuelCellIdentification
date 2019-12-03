@@ -41,17 +41,17 @@ switch(name_model)
         model = @DhirdeSimple;
         ub = [1   1      10      1      1   10  10 10];
         lb = zeros(1,length(ub));
-        names = {'Romega','Rct1','Q1','phi1','Rd','tauD','Lhf','Llf'};
+        names = {'Romega','Rct1','Q1','phi1','Rd','tauD','Llf','Lhf'};
     case ('DhirdeL')
         model = @DhirdeL;
         ub = [1   1      10      1      1   10  10  10 1 10 1];
         lb = zeros(1,length(ub));
-        names = {'Romega','Rct1','Q1','phi1','Rd','tauD','Lhf','Llf','Rct2','Q2','phi2'};
+        names = {'Romega','Rct1','Q1','phi1','Rd','tauD','Llf','Lhf','Rct2','Q2','phi2'};
     case ('DhirdeLWARL')
         model = @DhirdeLWARL;
         ub = [1   1      10    1   1   10  10  10 1 10 1 1  10  10];
         lb = zeros(1,length(ub));
-        names = {'Romega','Rct1','Q1','phi1','Rd1','tauD1','Lhf','Llf','Rct2','Q2','phi2','Rd2','tauD2','L'};
+        names = {'Romega','Rct1','Q1','phi1','Rd1','tauD1','Llf1','Lhf','Rct2','Q2','phi2','Rd2','tauD2','Llf2'};
     case ('DhirdeLWAR')
         model = @DhirdeLWAR;
         ub = [1   1   1   10  10    1    1   1   10  10  10  1  10 ];

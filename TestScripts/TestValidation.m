@@ -12,8 +12,8 @@ images = dir([curveBuonePath,'/*.jpg']);
 imagesStruct =  {images.name}';
 imagesStruct(:,2) = {0};
 dataset = DataSet('../ImportData',imagesStruct);
-trainingImages = dataset.classifiedImages(1:20);
-chosenImages = dataset.classifiedImages(1:50);
+trainingImages = dataset.classifiedImages(1:35);
+chosenImages = dataset.classifiedImages;
 
 
 % fitta con l'algoritmo
@@ -22,9 +22,10 @@ chosenImages = dataset.classifiedImages(1:50);
 % ottieni modello scelto
 % ottieni errore
 % ottieni parametri
+%%
 fitter = Fitter();
 dataFitAndClassTrain = fitter.fit(trainingImages,[2000 2000 2000]);
-
+save('datiFinali/dataFitAndClassTrain.mat','dataFitAndClassTrain')
 % per le convergenze, devo fare l'esecuzione su 10000/10000/10000
 
 % QUI analizzo le convergenze con la formula inversa e calcolo i valori
@@ -32,32 +33,35 @@ dataFitAndClassTrain = fitter.fit(trainingImages,[2000 2000 2000]);
 %%
 convergenceAmounts =  ceil(getConvergenceAmounts(dataFitAndClassTrain));
 %%
-dataFitAndClass = fitter.fit(chosenImages,convergenceAmounts);
+
 
 % Test Modello ottenuto
 modelNames = {'DhirdeSimple','DhirdeL','DhirdeLWARL'};
-result = struct('resid',[],'conf',[],'params',[]','minparams',[],'index',[],'outReason',[],'time',[],'initialResid',[],'factors',[]);
+resultTrain = struct('resid',[],'conf',[],'params',[]','minparams',[],'index',[],'outReason',[],'time',[],'initialResid',[],'factors',[]);
 amount = 2000;
-for i=1:length(chosenImages)
-    battery = chosenImages(i);
+for i=1:length(trainingImages)
+    battery = trainingImages(i);
     freq = battery.data.FrequencyHz;
     rPart = battery.data.realPartOfImpedance;
     iPart = battery.data.imagPartOfImpedance;
-    k = dataFitAndClass(i).choice;
+%     k = dataFitAndClass(i).choice;
     % DEVO Usare sempre il modello più complesso
     [ model, lowerBound, upperBound ] = set_model_and_bound(modelNames{3});
     start = generateUniformData(lowerBound, upperBound,amount);
     % fitta
     
-    [result(i).resid,result(i).conf,result(i).params,result(i).minparams,result(i).index,result(i).outReason,result(i).time,result(i).initialResid] = ...
+    [resultTrain(i).resid,resultTrain(i).conf,resultTrain(i).params,resultTrain(i).minparams,resultTrain(i).index,resultTrain(i).outReason,resultTrain(i).time,resultTrain(i).initialResid] = ...
         fitMultiple(rPart,iPart,...
         freq,lowerBound,upperBound,1,1,start,model);
 
 end
+save('datiFinali/resultTrain.mat','resultTrain')
 % fitta 10000 volte
 % ottieni tempo di esecuzione medio, min, max
 % ottieni convergenza
 % ottieni RMSE
+%%
+dataFitAndClass = fitter.fit(chosenImages,convergenceAmounts);
 %%
 precision = 0.999999;
 requiredLaunchesForced = 0;

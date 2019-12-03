@@ -35,3 +35,4 @@ for i=startC:endC
     plot(real(Zforced),-imag(Zforced),'Marker','.','MarkerSize',10);
     close(f);
 end
+
